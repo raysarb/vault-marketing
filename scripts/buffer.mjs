@@ -68,6 +68,7 @@ async function main() {
   if (process.argv.includes('--channels')) {
     const ch = await listChannels();
     console.log(JSON.stringify(ch, null, 2));
+    for (const c of ch) console.log(`::notice title=channel::${c.service} | ${c.name} | ${c.id}`);
     if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
       '| Name | Service | Channel id |\n|---|---|---|\n' + ch.map(c => `| ${c.name} | ${c.service} | \`${c.id}\` |`).join('\n') + '\n');
     return;
@@ -115,8 +116,9 @@ async function main() {
     }
   }
   console.log(report.join('\n') || 'Nothing to schedule.');
+  for (const r of report) console.log(`::${r.startsWith('❌') ? 'error' : 'notice'} title=post::${r}`);
   if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, report.map(r => `- ${r}`).join('\n') + '\n');
   if (failed) process.exitCode = 1;
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch(e => { console.log(`::error title=buffer::${String(e.message || e).replace(/Bearer \S+/g, 'Bearer ***').slice(0, 900)}`); process.exit(1); });
