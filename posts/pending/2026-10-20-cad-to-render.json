@@ -3,9 +3,21 @@
   "posts": [
     {
       "channel": "ray-x",
-      "at": "2026-10-20T16:00",
+      "at": "2026-10-20T16:15",
       "text": "Your CAD view. Photoreal in under a minute.\nSame camera, same design, real light. Then pick a mood.\nFirst render is free → https://www.vaultworkspace.com/?utm_source=x&utm_medium=social&utm_campaign=cad-to-render",
       "media": ["media/2026-10-20-cad-to-render/16x9-2k.mp4"]
+    },
+    {
+      "channel": "ray-linkedin",
+      "at": "2026-10-20T16:15",
+      "text": "For 13 years, the slowest part of my design work wasn't designing.\nIt was waiting for renders.\n\nSo I built Vault.\nTake a view from any CAD or 3D software, press Render.\nSame camera. Same design. Real light, in under a minute.\nThen try it at blue hour, or in the rain.\n\nFirst render is free: https://www.vaultworkspace.com/?utm_source=linkedin&utm_medium=social&utm_campaign=cad-to-render",
+      "media": ["media/2026-10-20-cad-to-render/16x9-2k.mp4"]
+    },
+    {
+      "channel": "vault-instagram",
+      "at": "2026-10-20T18:00",
+      "text": "CAD view → photoreal render in under a minute.\nSame camera. Same design. Real light.\nYour first render is free, link in bio.\n#archviz #architecture #interiordesign #rendering #architecturalvisualization #3dvisualization #interiordesigner #aiarchitecture",
+      "media": ["media/2026-10-20-cad-to-render/9x16.mp4"]
     }
   ]
 }
