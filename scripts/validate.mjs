@@ -19,7 +19,7 @@ for (const f of fs.readdirSync('posts/pending').filter(f => f.endsWith('.json'))
     const len = (p.text || '').replace(/https?:\/\/\S+/g, 'x'.repeat(23)).length;
     if (LIMITS[p.channel] && len > LIMITS[p.channel]) err(`${tag}: ${len} chars, limit ${LIMITS[p.channel]}`);
     for (const r of BANNED) if (r.test(p.text || '')) err(`${tag}: banned word ${r}`);
-    if (/vaultworkspace\.com/.test(p.text || '') && !/utm_source=/.test(p.text)) err(`${tag}: Vault link without utm tag`);
+    for (const t of [p.text || '', p.firstComment || '']) if (/vaultworkspace\.com/.test(t) && !/utm_source=/.test(t)) err(`${tag}: Vault link without utm tag`);
     for (const m of p.media || []) if (!/^https?:/.test(m) && !fs.existsSync(m)) err(`${tag}: media missing ${m}`);
     if (['vault-instagram', 'vault-youtube'].includes(p.channel) && !(p.media || []).length) err(`${tag}: ${p.channel} needs media`);
   }

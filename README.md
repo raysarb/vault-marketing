@@ -26,3 +26,8 @@ Media is public once merged (it's about to be posted anyway). Don't put anything
 1. Settings → Pages → Source: **GitHub Actions**.
 2. Buffer → Settings → API → create key. GitHub → Settings → Secrets and variables → Actions → New secret `BUFFER_API_KEY`.
 3. Connect the channels in Buffer. Actions → **List Buffer channels** → Run. Send the summary table to Claude (ids only, no key) to fill `channels.json`.
+
+## Options per post
+- `firstComment`: LinkedIn / Instagram first comment (put the link here on LinkedIn).
+- `schedulingType`: `automatic` or `notification`. **Vault Instagram defaults to `notification`**: at post time Buffer pings Ray's phone, he adds the collaborator (his personal account) in Instagram and taps Share. Buffer's API can't add collaborators.
+- Instagram video = Reel, shared to feed (and to Facebook through Instagram's auto-share).

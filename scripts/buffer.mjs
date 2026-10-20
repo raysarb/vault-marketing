@@ -93,9 +93,15 @@ async function main() {
           if (!DRY) await waitForUrl(url);
           assets.push(/\.(mp4|mov|webm)$/i.test(m) ? { video: { url } } : { image: { url } });
         }
-        const input = { text: p.text, channelId, schedulingType: 'automatic', mode: 'customScheduled', dueAt };
-        if (assets.length) input.assets = assets;
-        if (p.metadata) input.metadata = p.metadata;
+        // Instagram defaults to "notification": Buffer pings Ray's phone at post time so he can add the
+        // collaborator tag (Buffer's API has no collaborator field), then he taps Share in Instagram.
+        const notify = p.schedulingType ? p.schedulingType === 'notification' : p.channel === 'vault-instagram';
+        const input = { text: p.text, channelId, schedulingType: notify ? 'notification' : 'automatic', mode: 'customScheduled', dueAt, needsApproval: false, assets };
+        const meta = { ...(p.metadata || {}) };
+        const hasVideo = assets.some(a => a.video);
+        if (p.channel.endsWith('instagram')) meta.instagram = { type: hasVideo ? 'reel' : 'post', shouldShareToFeed: true, ...(p.firstComment ? { firstComment: p.firstComment } : {}), ...(meta.instagram || {}) };
+        if (p.channel.endsWith('linkedin') && p.firstComment) meta.linkedin = { firstComment: p.firstComment, ...(meta.linkedin || {}) };
+        if (Object.keys(meta).length) input.metadata = meta;
         if (DRY) { report.push(`DRY ${p.channel} ${p.at} ok`); continue; }
         const d = await gql(CREATE, { input });
         const res = d.createPost;
