@@ -1,0 +1,12 @@
+name: List Buffer channels
+# Run once after connecting channels in Buffer: Actions → List Buffer channels → Run workflow.
+on: workflow_dispatch
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/buffer.mjs --channels
+        env: { BUFFER_API_KEY: '${{ secrets.BUFFER_API_KEY }}' }

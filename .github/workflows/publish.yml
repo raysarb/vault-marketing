@@ -1,0 +1,45 @@
+name: Schedule in Buffer
+# Runs when Ray merges a pull request into main (that merge IS the approval).
+on:
+  push:
+    branches: [main]
+    paths: ['posts/pending/**', 'media/**']
+  workflow_dispatch:
+concurrency: { group: publish, cancel-in-progress: false }
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+jobs:
+  media:
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: '${{ steps.deploy.outputs.page_url }}' }
+    outputs:
+      base: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p _site && cp -r media _site/media && echo ok > _site/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: _site }
+      - id: deploy
+        uses: actions/deploy-pages@v4
+  schedule:
+    needs: media
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Schedule posts
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          MEDIA_BASE: ${{ needs.media.outputs.base }}
+        run: node scripts/buffer.mjs
+      - name: Save results
+        if: always()
+        run: |
+          git config user.name "vault-marketing-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A posts
+          git diff --cached --quiet || (git commit -m "Scheduled in Buffer [skip ci]" && git push)
