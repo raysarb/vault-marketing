@@ -19,7 +19,11 @@
       "text": "A render should never change your design.\n\nFor 13 years, I sent clients CAD views and waited for the photoreal version.\n\nSo I built Vault.\nDrop a view from any CAD or 3D software and press Render.\nSame camera. Same design. Real light, in about a minute.\nThen try golden hour, blue hour or snow at dusk. The model stays exactly as you drew it.\n\nYour first render is free: https://www.vaultworkspace.com/?utm_source=linkedin&utm_medium=social&utm_campaign=ad-cad-to-photoreal",
       "media": [
         "media/2026-10-21-cad-to-photoreal/16x9.mp4"
-      ]
+      ],
+      "result": {
+        "id": "6ad7a3e358633da51387329d",
+        "dueAt": "2026-10-21T07:00:00.000Z"
+      }
     }
   ]
 }
