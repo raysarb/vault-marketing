@@ -3,7 +3,11 @@
 // Only Ray's chat (TELEGRAM_CHAT_ID) is obeyed. Uses the repo's own GITHUB_TOKEN; no personal token.
 // Telegram updates are read without confirming them, so other bot jobs (HQ music inbox) still see them.
 import fs from 'node:fs';
-const { TELEGRAM_BOT_TOKEN: TG, TELEGRAM_CHAT_ID: CHAT, GITHUB_TOKEN: GT, GITHUB_REPOSITORY: REPO } = process.env;
+const TG = (process.env.TELEGRAM_BOT_TOKEN || '').replace(/[\[\]<>\s"']/g, '');
+const CHAT_RAW = process.env.TELEGRAM_CHAT_ID;
+const { GITHUB_TOKEN: GT, GITHUB_REPOSITORY: REPO } = process.env;
+const CHAT = String(CHAT_RAW || '').replace(/[^0-9-]/g, '');
+console.log('token length', TG.length, 'chat', CHAT);
 const STATE = 'posts/.approvals.json';
 const st = fs.existsSync(STATE) ? JSON.parse(fs.readFileSync(STATE, 'utf8')) : { last: 0, announced: [] };
 const tg = async (m, body) => {
@@ -12,7 +16,7 @@ const tg = async (m, body) => {
     catch (e) { if (i >= 4) throw e; await new Promise(r => setTimeout(r, 5000 * (i + 1))); }
   }
 };
-const say = (text) => tg('sendMessage', { chat_id: CHAT, text: text.slice(0, 4000), disable_web_page_preview: true });
+const say = async (text) => { const r = await tg('sendMessage', { chat_id: CHAT, text: text.slice(0, 4000), disable_web_page_preview: true }); if (!r.ok) throw new Error(`Telegram: ${r.description} (check secrets TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID: no brackets, no spaces)`); return r; };
 const gh = async (path, method = 'GET', body) => {
   const r = await fetch(`https://api.github.com/repos/${REPO}${path}`, { method, headers: { Authorization: `Bearer ${GT}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
   const t = await r.text(); if (!r.ok) throw new Error(`${r.status} ${t.slice(0, 200)}`); return t ? JSON.parse(t) : {};
