@@ -17,4 +17,4 @@ async function walk(name, depth) {
   for (const f of t.inputFields || []) { let ty = f.type; while (ty && !ty.name) ty = ty.ofType; if (ty && /Input|Meta|Enum|Type|Asset/i.test(ty.name) && !/^(String|Int|Boolean|ID|Float|DateTime)$/.test(ty.name)) await walk(ty.name, depth + 1); }
 }
 await walk('CreatePostInput', 0);
-for (const l of out) if (/^(CreatePostInput|.*Instagram|.*Meta|.*Metadata|.*Collab|.*Asset)/i.test(l)) console.log(`::notice title=schema::${l}`);
+for (const l of out) if (!/^(CreatePostInput)\./.test(l)) console.log(`::notice title=schema::${l}`);
