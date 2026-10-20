@@ -6,7 +6,12 @@ import fs from 'node:fs';
 const { TELEGRAM_BOT_TOKEN: TG, TELEGRAM_CHAT_ID: CHAT, GITHUB_TOKEN: GT, GITHUB_REPOSITORY: REPO } = process.env;
 const STATE = 'posts/.approvals.json';
 const st = fs.existsSync(STATE) ? JSON.parse(fs.readFileSync(STATE, 'utf8')) : { last: 0, announced: [] };
-const tg = async (m, body) => (await fetch(`https://api.telegram.org/bot${TG}/${m}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })).json();
+const tg = async (m, body) => {
+  for (let i = 0; ; i++) {
+    try { return await (await fetch(`https://api.telegram.org/bot${TG}/${m}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(30000) })).json(); }
+    catch (e) { if (i >= 4) throw e; await new Promise(r => setTimeout(r, 5000 * (i + 1))); }
+  }
+};
 const say = (text) => tg('sendMessage', { chat_id: CHAT, text: text.slice(0, 4000), disable_web_page_preview: true });
 const gh = async (path, method = 'GET', body) => {
   const r = await fetch(`https://api.github.com/repos/${REPO}${path}`, { method, headers: { Authorization: `Bearer ${GT}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
