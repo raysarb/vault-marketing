@@ -1,0 +1,11 @@
+name: Buffer post options
+on: workflow_dispatch
+jobs:
+  schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/schema.mjs
+        env: { BUFFER_API_KEY: '${{ secrets.BUFFER_API_KEY }}' }
