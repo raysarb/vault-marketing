@@ -1,0 +1,32 @@
+# Telegram approvals: announces post PRs to Ray and acts on his "OK 7" / "NO 7" replies.
+name: Telegram approvals
+on:
+  schedule:
+    - cron: "4,19,34,49 * * * *"
+  pull_request:
+    types: [opened, synchronize]
+  workflow_dispatch:
+concurrency: { group: approvals, cancel-in-progress: false }
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+jobs:
+  approvals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Approvals
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/approvals.mjs
+      - name: Save state
+        run: |
+          git config user.name "vault-marketing-bot"; git config user.email "actions@users.noreply.github.com"
+          git add posts/.approvals.json
+          git diff --cached --quiet || (git commit -m "approvals state [skip ci]" && git pull --rebase -q && git push)
