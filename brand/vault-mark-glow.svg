@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#050607"/>
+<defs><radialGradient id="halo"><stop offset="0" stop-color="#EAFBFF" stop-opacity=".55"/><stop offset=".45" stop-color="#BEEAF3" stop-opacity=".18"/><stop offset="1" stop-color="#BEEAF3" stop-opacity="0"/></radialGradient>
+<filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="28"/></filter></defs>
+<circle cx="512" cy="512" r="500" fill="url(#halo)"/>
+<g filter="url(#b)" opacity=".8"><defs><linearGradient id="g0" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#BEEAF3"/><stop offset=".55" stop-color="#DDF6FB"/><stop offset="1" stop-color="#F3FDFF"/></linearGradient></defs>
+<polygon points="512.0,220.0 764.9,366.0 764.9,658.0 512.0,804.0 259.1,658.0 259.1,366.0" fill="url(#g0)" stroke="url(#g0)" stroke-width="72" stroke-linejoin="round"/></g><defs><linearGradient id="g1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#BEEAF3"/><stop offset=".55" stop-color="#DDF6FB"/><stop offset="1" stop-color="#F3FDFF"/></linearGradient></defs>
+<polygon points="512.0,220.0 764.9,366.0 764.9,658.0 512.0,804.0 259.1,658.0 259.1,366.0" fill="url(#g1)" stroke="url(#g1)" stroke-width="72" stroke-linejoin="round"/></svg>
