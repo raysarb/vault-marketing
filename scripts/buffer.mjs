@@ -103,9 +103,7 @@ async function main() {
           if (!DRY) await waitForUrl(url);
           assets.push(/\.(mp4|mov|webm)$/i.test(m) ? { video: { url } } : { image: { url } });
         }
-        // Instagram defaults to "notification": Buffer pings Ray's phone at post time so he can add the
-        // collaborator tag (Buffer's API has no collaborator field), then he taps Share in Instagram.
-        const notify = p.schedulingType ? p.schedulingType === 'notification' : p.channel === 'vault-instagram';
+        const notify = p.schedulingType === 'notification'; // default automatic: Ray has no Buffer phone app (Oct 20)
         const input = { text: p.text, channelId, schedulingType: notify ? 'notification' : 'automatic', mode: 'customScheduled', dueAt, needsApproval: false, assets };
         const meta = { ...(p.metadata || {}) };
         const hasVideo = assets.some(a => a.video);
