@@ -1,0 +1,4 @@
+<!doctype html><meta charset="utf-8"><title>send</title><body>sending…<script>
+const f=new URLSearchParams(location.search).get('f');
+fetch(f).then(r=>r.arrayBuffer()).then(b=>{(window.opener||parent).postMessage({vaultFile:f,buf:b},'*');document.body.textContent='sent '+b.byteLength;});
+</script>
