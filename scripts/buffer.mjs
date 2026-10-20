@@ -65,6 +65,16 @@ const CREATE = `mutation($input: CreatePostInput!) {
 }`;
 
 async function main() {
+  if (process.argv.includes('--queue')) {
+    const a = await gql('query { account { organizations { id name } } }');
+    let n = 0;
+    for (const org of a.account.organizations) {
+      const q = await gql(`query($org: OrganizationId!) { posts(first: 50, input: { organizationId: $org, filter: { status: [scheduled] } }) { edges { node { id dueAt channelId text } } } }`, { org: org.id });
+      for (const e of q.posts.edges) { n++; console.log(`::notice title=queued::${e.node.dueAt} | ${e.node.channelId} | ${e.node.id} | ${(e.node.text || '').slice(0, 60).replace(/\n/g, ' ')}`); }
+    }
+    console.log(`::notice title=queued::total scheduled posts: ${n}`);
+    return;
+  }
   if (process.argv.includes('--channels')) {
     const ch = await listChannels();
     console.log(JSON.stringify(ch, null, 2));
