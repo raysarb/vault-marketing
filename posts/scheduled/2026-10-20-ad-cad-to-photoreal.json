@@ -5,7 +5,13 @@
       "channel": "vault-instagram",
       "at": "2026-10-20T18:00",
       "text": "Your CAD view. Photoreal in a minute.\nSame camera. Same design. Real light.\nThen change the mood in one click.\n\nYour first render is free. Link in bio.\n\n#archviz #architecture #interiordesign #rendering #architecturalvisualization #3dvisualization #interiordesigner #aiarchitecture",
-      "media": ["media/2026-10-20-ad-cad-to-photoreal/9x16.mp4"]
+      "media": [
+        "media/2026-10-20-ad-cad-to-photoreal/9x16.mp4"
+      ],
+      "result": {
+        "id": "6ad77805009aee6864423612",
+        "dueAt": "2026-10-20T15:00:00.000Z"
+      }
     }
   ]
 }
