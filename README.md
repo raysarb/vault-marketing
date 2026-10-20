@@ -29,5 +29,5 @@ Media is public once merged (it's about to be posted anyway). Don't put anything
 
 ## Options per post
 - `firstComment`: LinkedIn / Instagram first comment (put the link here on LinkedIn).
-- `schedulingType`: `automatic` or `notification`. **Vault Instagram defaults to `notification`**: at post time Buffer pings Ray's phone, he adds the collaborator (his personal account) in Instagram and taps Share. Buffer's API can't add collaborators.
+- `schedulingType`: `automatic` (default, every channel) or `notification` (needs the Buffer phone app; not used). Instagram allows max 5 hashtags. Collaborators cannot be added by the API: tag @raysarb... in the caption instead.
 - Instagram video = Reel, shared to feed (and to Facebook through Instagram's auto-share).
