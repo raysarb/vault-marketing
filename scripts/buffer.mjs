@@ -107,8 +107,9 @@ async function main() {
         const input = { text: p.text, channelId, schedulingType: notify ? 'notification' : 'automatic', mode: 'customScheduled', dueAt, needsApproval: false, assets };
         const meta = { ...(p.metadata || {}) };
         const hasVideo = assets.some(a => a.video);
-        if (p.channel.endsWith('instagram')) meta.instagram = { type: hasVideo ? 'reel' : 'post', shouldShareToFeed: true, ...(p.firstComment ? { firstComment: p.firstComment } : {}), ...(meta.instagram || {}) };
-        if (p.channel.endsWith('linkedin') && p.firstComment) meta.linkedin = { firstComment: p.firstComment, ...(meta.linkedin || {}) };
+        if (p.channel.endsWith('instagram')) meta.instagram = { type: hasVideo ? 'reel' : 'post', shouldShareToFeed: true, ...(meta.instagram || {}) };
+        // Buffer free plan: no first comments on LinkedIn/Instagram. Put the link in the text instead.
+        if (p.firstComment && !p.text.includes(p.firstComment)) input.text = `${p.text}\n\n${p.firstComment}`;
         if (Object.keys(meta).length) input.metadata = meta;
         if (DRY) { report.push(`DRY ${p.channel} ${p.at} ok`); continue; }
         const d = await gql(CREATE, { input });

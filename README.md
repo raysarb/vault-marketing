@@ -28,6 +28,6 @@ Media is public once merged (it's about to be posted anyway). Don't put anything
 3. Connect the channels in Buffer. Actions → **List Buffer channels** → Run. Send the summary table to Claude (ids only, no key) to fill `channels.json`.
 
 ## Options per post
-- `firstComment`: LinkedIn / Instagram first comment (put the link here on LinkedIn).
+- `firstComment`: not supported on Buffer free plan; if set, it is appended to the post text. Put links in the text.
 - `schedulingType`: `automatic` (default, every channel) or `notification` (needs the Buffer phone app; not used). Instagram allows max 5 hashtags. Collaborators cannot be added by the API: tag @raysarb... in the caption instead.
 - Instagram video = Reel, shared to feed (and to Facebook through Instagram's auto-share).
