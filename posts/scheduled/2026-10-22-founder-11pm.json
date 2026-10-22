@@ -7,7 +7,11 @@
       "text": "Most AI render tools are built by people who've never had a client reject a render at 11pm.\n\nI have. For 13 years, in high-end interiors.\n\nSo when I built Vault, rule one was simple:\nyour design stays exactly as you modelled it.\nSame camera. Same geometry. No extra windows, no furniture you didn't place.\nVault only adds real light and materials.\n\nA render that changes the design loses the client's trust.\n\nYour first render is free: https://www.vaultworkspace.com/?utm_source=linkedin&utm_medium=social&utm_campaign=founder-1021",
       "media": [
         "media/2026-10-22-founder-11pm/16x9.jpg"
-      ]
+      ],
+      "result": {
+        "id": "already-in-buffer",
+        "note": "Buffer reported it already scheduled (run 2026-10-21 18:02)"
+      }
     }
   ]
 }
