@@ -42,4 +42,7 @@ jobs:
           git config user.name "vault-marketing-bot"
           git config user.email "actions@users.noreply.github.com"
           git add -A posts
-          git diff --cached --quiet || (git commit -m "Scheduled in Buffer [skip ci]" && git push)
+          git diff --cached --quiet && exit 0
+          git commit -m "Scheduled in Buffer [skip ci]"
+          for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push && exit 0; sleep $((i*5)); done
+          exit 1

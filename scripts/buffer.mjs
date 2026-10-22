@@ -114,7 +114,11 @@ async function main() {
         if (DRY) { report.push(`DRY ${p.channel} ${p.at} ok`); continue; }
         const d = await gql(CREATE, { input });
         const res = d.createPost;
-        if (res.message) throw new Error(res.message);
+        if (res.message) {
+          // Buffer refuses an identical post: it is already queued from an earlier run whose results were not saved.
+          if (/already got this one scheduled/i.test(res.message)) { p.result = { id: 'already-in-buffer' }; report.push(`✅ ${batch.id} · ${p.channel} · ${p.at} (already in Buffer)`); continue; }
+          throw new Error(res.message);
+        }
         p.result = { id: res.post.id, dueAt: res.post.dueAt };
         report.push(`✅ ${batch.id} · ${p.channel} · ${p.at}`);
       } catch (e) {
